@@ -184,7 +184,14 @@ export class TransformHandler {
         }
         return headersObj
     }
-    async getTransformation(request: GetTransformRequest) {
+    /**
+     * Retrieves the status and details of a transformation job.
+     * Includes error code when the job has failed.
+     *
+     * @param request - The request containing the transformation job ID
+     * @returns The transformation job details with error code if applicable, or null if the request fails
+     */
+    async getTransformation(request: GetTransformRequest): Promise<GetTransformResponse | null> {
         try {
             const getCodeTransformationRequest = {
                 transformationJobId: request.TransformationJobId,
@@ -193,8 +200,13 @@ export class TransformHandler {
                 .getCodewhispererService()
                 .codeModernizerGetCodeTransformation(getCodeTransformationRequest)
             this.logging.log('Transformation status: ' + response.transformationJob?.status)
+
+            // Use validation function to determine the error code
+            const errorCode = validation.getTransformationErrorCode(response.transformationJob)
+
             return {
                 TransformationJob: response.transformationJob,
+                ErrorCode: errorCode,
             } as GetTransformResponse
         } catch (e: any) {
             const errorMessage = (e as Error).message ?? 'Error in GetTransformation API call'
