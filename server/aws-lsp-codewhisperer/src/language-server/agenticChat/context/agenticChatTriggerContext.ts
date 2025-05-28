@@ -262,6 +262,11 @@ export class AgenticChatTriggerContext {
      */
     async getTextDocument(uri: string) {
         // Note: version is unused, and languageId can be determined from file extension.
+        // Normalize URI if the current OS is windows.
+        if (this.#mapPlatformToEnvState(process.platform)?.operatingSystem == 'windows') {
+            uri = await this.normalizeUri(uri)
+        }
+
         const syncedTextDocument = await this.#workspace.getTextDocument(uri)
         if (syncedTextDocument) {
             return syncedTextDocument
@@ -269,9 +274,24 @@ export class AgenticChatTriggerContext {
         try {
             const content = await this.#workspace.fs.readFile(URI.parse(uri).fsPath)
             return TextDocument.create(uri, '', 0, content)
-        } catch {
+        } catch (e) {
+            this.#logging.debug(`Failed to read file ${uri}: ${e}`)
             return
         }
+    }
+
+    async normalizeUri(input: string) {
+        // Remove any existing file:// prefix
+        let normalized = input.replace(/^file:\/\//, '')
+
+        // Convert all backslashes to forward slashes
+        normalized = normalized.replace(/\\/g, '/')
+
+        // Remove any extra leading slashes
+        normalized = normalized.replace(/^\/+/, '')
+
+        // Add the file:// prefix
+        return `file:///${normalized}`
     }
 
     async #getRelevantDocuments(
