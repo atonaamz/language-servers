@@ -30,7 +30,7 @@ export class CodeDiffTracker<T extends AcceptedSuggestionEntry = AcceptedSuggest
     /**
      * time threshold before measuring the modification after accepted into the editor
      */
-    private static readonly TIME_ELAPSED_THRESHOLD = 1000 * 60 * 5 // 5 minutes
+    private static readonly TIME_ELAPSED_THRESHOLD = 1000 * 60 * 1 // change to 1 minute for testing
     private static readonly DEFAULT_MAX_QUEUE_SIZE = 10000
 
     #eventQueue: T[]

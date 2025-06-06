@@ -2,7 +2,7 @@ import { CodeWhispererCodePercentageEvent } from '../../shared/telemetry/types'
 import { TelemetryService } from '../../shared/telemetry/telemetryService'
 import { CodewhispererLanguage } from '../../shared/languageDetection'
 
-const CODE_PERCENTAGE_INTERVAL = 5 * 60 * 1000
+const CODE_PERCENTAGE_INTERVAL = 1 * 60 * 1000 // change to 1 minute for testing
 const INSERT_CUTOFF_THRESHOLD = 50
 
 type TelemetryBuckets = {

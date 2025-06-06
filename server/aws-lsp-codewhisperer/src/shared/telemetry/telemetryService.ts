@@ -255,7 +255,7 @@ export class TelemetryService {
             generatedLine: generatedLines,
             numberOfRecommendations: session.suggestions.length,
             perceivedLatencyMilliseconds: perceivedLatencyMilliseconds,
-            addedCharacterCount: addedCharacterCount,
+            addedCharacterCount: acceptedCharacterCount,
             deletedCharacterCount: deletedCharacterCount,
             streakLength: streakLength,
         }
