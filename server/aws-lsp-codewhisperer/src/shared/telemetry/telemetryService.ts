@@ -271,8 +271,7 @@ export class TelemetryService {
             deletedCharacterCount: deletedCharacterCount,
             addedIdeDiagnostics: addedIdeDiagnostics,
             removedIdeDiagnostics: removedIdeDiagnostics,
-            // TODO add streakLength back once the model is updated
-            // streakLength: streakLength,
+            streakLength: streakLength,
         }
         return this.invokeSendTelemetryEvent({
             userTriggerDecisionEvent: event,
